@@ -1,0 +1,30 @@
+---
+version: "3.7"
+services:
+  netbootxyz:
+    image: ghcr.io/netbootxyz/netbootxyz
+    container_name: netbootxyz
+    environment:
+      - MENU_VERSION=2.0.47 # optional
+      - TZ=Etc/UTC
+    volumes:
+      - netbootxyz_config:/config # optional
+      - netbootxyz_assets:/assets # optional
+    ports:
+      - 3000:3000
+      - 69:69/udp
+      #- 8081:80 # eb UI port. Is optional. Only used if other container are not using port 8081
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.netbootxyz.entrypoints=websecure
+      - traefik.http.routers.netbootxyz.rule=Host(`netbootxyz.home.techfitsu.org`)
+      - traefik.http.routers.netbootxyz.tls=true
+      - traefik.http.routers.netbootxyz.tls.certresolver=production
+      - traefik.http.services.netbootxyz.loadbalancer.server.port=3000
+
+
+
+volumes:
+  netbootxyz_config:
+  netbootxyz_assets:
