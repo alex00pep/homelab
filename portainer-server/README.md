@@ -1,10 +1,9 @@
-# Pi-Hole + Unbound - 1 Container
+# Portainer and Traefik - 2 Container
 
 ## Description
 
-This Docker deployment runs both Pi-Hole and Unbound in a single container.
+This Docker deployment runs both Portainer and Traefik in two individual ontainers.
 
-The base image for the container is the [official Pi-Hole container](https://hub.docker.com/r/pihole/pihole), with an extra build step added to install the Unbound resolver directly into to the container based on [instructions provided directly by the Pi-Hole team](https://docs.pi-hole.net/guides/unbound/).
 
 ## Usage
 
@@ -28,17 +27,7 @@ First create a `.env` file to substitute variables for your deployment.
 Example `.env` file in the same directory as your `docker-compose.yaml` file:
 
 ```
-FTLCONF_LOCAL_IPV4=192.168.1.10
-TZ=America/Los_Angeles
-WEBPASSWORD=QWERTY123456asdfASDF
-REV_SERVER=true
-REV_SERVER_DOMAIN=local
-REV_SERVER_TARGET=192.168.1.1
-REV_SERVER_CIDR=192.168.0.0/16
-HOSTNAME=pihole
-DOMAIN_NAME=pihole.local
-PIHOLE_WEBPORT=80
-WEBTHEME=default-light
+
 ```
 
 ### Running the stack using Portainer UI
