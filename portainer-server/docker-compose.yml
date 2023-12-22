@@ -28,6 +28,8 @@ services:
     restart: always
     ports:      
       - "9443:9443" # Only used if not using Traefik
+      - "9000:9000"
+      - "8000:8000"
     depends_on:
       - traefik
     volumes:
