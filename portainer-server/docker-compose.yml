@@ -10,7 +10,7 @@ services:
       - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/etc/traefik/config:/etc/traefik"
+      - "./config:/etc/traefik"
     labels:
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.http-catchall.entrypoints=web"
