@@ -26,10 +26,8 @@ services:
     image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
     restart: always
-    ports:
-      - "8000:8000"
-      - "9000:9000"
-      - "9443:9443"
+    ports:      
+      - "9443:9443" # Only used if not using Traefik
     depends_on:
       - traefik
     volumes:
@@ -40,7 +38,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.home.techfitsu.org`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.tls.certresolver=production"
     networks:
