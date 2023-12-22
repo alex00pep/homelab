@@ -18,6 +18,8 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
     networks:
       - traefik_default
+    env_file:
+      - .env
     restart: always
 
   portainer:
