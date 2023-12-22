@@ -36,12 +36,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     labels:
-      # Frontend
+      # Portainer Frontend
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.home.techfitsu.org`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
-      - "traefik.http.routers.portainer.service=frontend"
+      - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.tls.certresolver=production"
     networks:
       - traefik_default
