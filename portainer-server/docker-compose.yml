@@ -7,6 +7,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/traefik/config:/etc/traefik"
@@ -16,13 +17,16 @@ services:
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
     networks:
-      - proxy
+      - traefik_default
     restart: always
 
   portainer:
     image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
     restart: always
+    ports:
+      - "9000:9000"
+      - "9443:9443"
     depends_on:
       - traefik
     volumes:
@@ -33,19 +37,17 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.home.techfitsu.com`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.tls.certresolver=cloudflare"
     networks:
-      - proxy
+      - traefik_default
 
 volumes:
   portainer_data:
     driver: local
 
 networks:
-  proxy:
-    name: proxy
+  traefik_default:
+    name: traefik_default
     driver: bridge
-    ipam:
-      driver: default
