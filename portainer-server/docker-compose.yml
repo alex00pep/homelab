@@ -25,6 +25,7 @@ services:
     command: -H unix:///var/run/docker.sock
     restart: always
     ports:
+      - "8000:8000"
       - "9000:9000"
       - "9443:9443"
     depends_on:
@@ -38,8 +39,8 @@ services:
       - "traefik.http.routers.portainer.rule=Host(`portainer.home.techfitsu.com`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
-      - "traefik.http.routers.portainer.service=portainer"
-      - "traefik.http.routers.portainer.tls.certresolver=cloudflare"
+      - "traefik.http.routers.portainer.service=frontend"
+      - "traefik.http.routers.portainer.tls.certresolver=production"
     networks:
       - traefik_default
 
