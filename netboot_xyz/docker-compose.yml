@@ -5,7 +5,7 @@ services:
     image: ghcr.io/netbootxyz/netbootxyz
     container_name: netbootxyz
     environment:
-      - MENU_VERSION=2.0.47 # optional
+      - MENU_VERSION=2.0.59 # optional
       - TZ=Etc/UTC
     volumes:
       - netbootxyz_config:/config # optional
