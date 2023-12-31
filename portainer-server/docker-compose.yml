@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      - "8080:8080"  # UI for Traefik web dashboard [optional]
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./config:/etc/traefik"
@@ -26,8 +26,8 @@ services:
     image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
     restart: always
-    ports:      
-      - "9443:9443" # Only used if not using Traefik
+    ports:
+      - "9443:9443" # Only used if not integrating correctly with reverse proxy Traefik
       - "9000:9000"
       - "8000:8000"
     depends_on:
