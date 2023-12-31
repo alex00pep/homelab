@@ -8,6 +8,8 @@ services:
       - 27017
     volumes:
       - meshcentral_db:/data/db
+    networks:
+      - meshcentral
 
   meshcentral:
     restart: always
@@ -22,7 +24,7 @@ services:
       - REVERSE_PROXY=true     #set to your reverse proxy IP if you want to put meshcentral behind a reverse proxy
       - REVERSE_PROXY_TLS_PORT=443
       - IFRAME=false    #set to true if you wish to enable iframe support
-      - ALLOW_NEW_ACCOUNTS=true    #set to false if you want disable self-service creation of new accounts besides the first (admin)
+      - ALLOW_NEW_ACCOUNTS=false    #set to false if you want disable self-service creation of new accounts besides the first (admin)
       - WEBRTC=false  #set to true to enable WebRTC - per documentation it is not officially released with meshcentral, but is solid enough to work with. Use with caution      
       - BACKUP_INTERVAL=24 # Interval in hours for the autobackup function
       - BACKUP_KEEP_DAYS=10 #number of days of backups the function keeps
@@ -35,9 +37,10 @@ services:
       - traefik.http.routers.meshcentral.rule=Host(`meshcentral.home.techfitsu.org`)
       - traefik.http.routers.meshcentral.entrypoints=websecure
       - traefik.http.routers.meshcentral.tls.certresolver=production
-      - traefik.http.services.meshcentral.loadbalancer.server.port=8086
+      - traefik.http.services.meshcentral.loadbalancer.server.port=443
     networks:
       - traefik_default
+      - meshcentral
 
 volumes:
   meshcentral-data:
@@ -50,3 +53,8 @@ volumes:
 networks:
   traefik_default:
     external: true
+  
+  meshcentral:
+    name: meshcentral
+    driver: bridge
+
