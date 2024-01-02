@@ -49,6 +49,8 @@ volumes:
     driver: local
   meshcentral-backups:
     driver: local
+  meshcentral_db:
+    driver: local
 
 networks:
   traefik_default:
