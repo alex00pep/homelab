@@ -21,7 +21,7 @@ services:
       - 8086:443  #MeshCentral will moan and try everything not to use port 80, but you can also use it if you so desire, just change the config.json according to your needs
     environment:
       - HOSTNAME=meshcentral.home.techfitsu.org     #your hostname
-      - REVERSE_PROXY=true     #set to your reverse proxy IP if you want to put meshcentral behind a reverse proxy
+      - REVERSE_PROXY=false     #set to your reverse proxy IP if you want to put meshcentral behind a reverse proxy
       - REVERSE_PROXY_TLS_PORT=443
       - IFRAME=false    #set to true if you wish to enable iframe support
       - ALLOW_NEW_ACCOUNTS=false    #set to false if you want disable self-service creation of new accounts besides the first (admin)

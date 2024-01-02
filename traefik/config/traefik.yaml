@@ -79,7 +79,7 @@ certificatesResolvers:
 #       minVersion: VersionTLS12
 
 providers:
-  docker:
+  podman:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
     watch: true

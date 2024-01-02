@@ -1,27 +1,6 @@
 version: "3.7"
 
 services:
-  traefik:
-    container_name: traefik
-    image: "traefik:latest"    
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"  # UI for Traefik web dashboard [optional]
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./config:/etc/traefik"
-    labels:
-      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.http-catchall.entrypoints=web"
-      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-    networks:
-      - traefik_default
-    env_file:
-      - .env
-    restart: always
-
   portainer:
     image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
@@ -30,10 +9,8 @@ services:
       - "9443:9443" # Only used if not integrating correctly with reverse proxy Traefik
       - "9000:9000"
       - "8000:8000"
-    depends_on:
-      - traefik
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/podman/podman.sock:/var/run/docker.sock
       - portainer_data:/data
     labels:
       # Portainer Frontend
@@ -52,5 +29,4 @@ volumes:
 
 networks:
   traefik_default:
-    name: traefik_default
-    driver: bridge
+    external: true
