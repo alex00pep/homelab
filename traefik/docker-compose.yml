@@ -7,10 +7,11 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"  # UI for Traefik web dashboard [optional]
+      - "0.0.0.0:8080:8080"  # UI for Traefik web dashboard [optional]
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./config:/etc/traefik"
+      - "traefik_data:/data/traefik"
     labels:
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.http-catchall.entrypoints=web"
@@ -22,7 +23,9 @@ services:
       - traefik.env
     restart: always
 
-
+volumes:
+  traefik_data:
+    driver: local
 networks:
   traefik_default:
     name: traefik_default

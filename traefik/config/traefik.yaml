@@ -51,14 +51,14 @@ certificatesResolvers:
     acme:
       email: alexmtnezf@gmail.com
       caServer: https://acme-staging-v02.api.letsencrypt.org/directory
-      storage: /etc/traefik/acme.json
+      storage: /data/traefik/acme.json
       dnsChallenge:
         provider: cloudflare
 
   production:
     acme:
       email: alexmtnezf@gmail.com
-      storage: /etc/traefik/acme.json
+      storage: /data/traefik/acme.json
       dnsChallenge:
         provider: cloudflare
 
@@ -79,7 +79,7 @@ certificatesResolvers:
 #       minVersion: VersionTLS12
 
 providers:
-  podman:
+  docker:
     # -- (Optional) Enable this, if you want to expose all containers automatically
     exposedByDefault: false
     watch: true
