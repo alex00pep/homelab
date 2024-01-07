@@ -2,11 +2,13 @@ global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
+serversTransport:
+  insecureSkipVerify: false # -- (Optional) Change TLS verification here...
 # -- (Optional) Change Log Level and Format here...
 #     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 #     - format [common, json, logfmt]
 log:
-  level: ERROR
+  level: INFO
   format: common
   filePath: /var/log/traefik/traefik.log
 
