@@ -36,7 +36,12 @@ NOTE: You can start all container stacks below using Portainer Server UI
 ### Install Docker host monitoring stack
 This is optional. but if you need it you can do it.
 
-Make sure you have a user with UID 1000 and GID 1000, because the monitoring stack will run as that user.
+Make sure you have a user with UID 1000 and GID 1000, because the monitoring stack will run as that user. Also create the folder structure under the user home directory:
+
+```bash
+cd $HOME
+mkdir -p promgrafnode/prometheus && mkdir -p promgrafnode/grafana/provisioning && touch promgrafnode/docker-compose.yml && touch promgrafnode/prometheus/prometheus.yml
+```
 
 The monitoring solutions includes:
 1. Node-Exporter
