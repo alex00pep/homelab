@@ -4,13 +4,14 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     command: -H unix:///var/run/docker.sock
-    restart: always
+    restart: unless-stopped
     ports:
       - "9443:9443" # Only used if not integrating correctly with reverse proxy Traefik
       - "9000:9000"
       - "8000:8000"
     volumes:
-      - /var/run/podman/podman.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime
+      - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     labels:
       # Portainer Frontend
@@ -19,6 +20,7 @@ services:
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.service=portainer"
+      - "traefik.http.routers.portainer.tls=true"
       - "traefik.http.routers.portainer.tls.certresolver=production"
     networks:
       - traefik_default

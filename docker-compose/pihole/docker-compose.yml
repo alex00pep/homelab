@@ -12,10 +12,10 @@ services:
     hostname: ${HOSTNAME}
     domainname: ${DOMAIN_NAME}
     ports:
-      #- 443:443/tcp #Allows use of different port to access pihole web interface when other docker containers use port 443
+      # - 443:443/tcp # Allows use of different port to access pihole web interface when other docker containers use port 443
       - 53:53/tcp
       - 53:53/udp
-      #- ${PIHOLE_WEBPORT:-80}:80/tcp #Allows use of different port to access pihole web interface when other docker containers use port 80
+      - ${PIHOLE_WEBPORT:-80}:80/tcp #Allows use of different port to access pihole web interface when other docker containers use port 80
       # - 5335:5335/tcp # Uncomment to enable unbound access on local server
       # - 22/tcp # Uncomment to enable SSH
     environment:
@@ -34,14 +34,13 @@ services:
       - etc_pihole-unbound:/etc/pihole:rw
       - etc_pihole_dnsmasq-unbound:/etc/dnsmasq.d:rw
     restart: always
-    networks:
-      - traefik_default
     labels:
       - traefik.enable=true
       - traefik.http.routers.pihole.entrypoints=websecure
       - traefik.http.routers.pihole.rule=Host(`pihole2.home.techfitsu.org`)
       - traefik.http.routers.pihole.tls=true
       - traefik.http.routers.pihole.tls.certresolver=production
+      - traefik.http.routers.pihole.service=pihole
       - traefik.http.services.pihole.loadbalancer.server.port=80
 
 networks:

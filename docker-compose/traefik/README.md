@@ -7,11 +7,11 @@ This deployment runs Traefik in a single containers.
 
 ## Usage
 
-First create a `.env` file to substitute variables for your deployment.
+First create a `traefik.env` file to substitute variables for your deployment.
 
 ### Traefik environment variables for interactig with Cloudflare DNS and LetsEncrypt
 
-Example `.env` file in the same directory as your `docker-compose.yml` file:
+Example `traefik.env` file in the same directory as your `docker-compose.yml` file:
 
 ```
 CLOUDFLARE_DNS_API_TOKEN=****

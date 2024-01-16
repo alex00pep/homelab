@@ -5,16 +5,16 @@ services:
     image: ghcr.io/netbootxyz/netbootxyz
     container_name: netbootxyz
     environment:
-      - MENU_VERSION=2.0.59 # optional
-      - TZ=Etc/UTC
+      - MENU_VERSION=2.0.76 # optional
+      - TZ=America/Chicago
     volumes:
       - netbootxyz_config:/config # optional
       - netbootxyz_assets:/assets # optional
     ports:
       - 3000:3000
       - 69:69/udp
-      #- 8081:80 # eb UI port. Is optional. Only used if other container are not using port 8081
     restart: always
+    
     labels:
       - traefik.enable=true
       - traefik.http.routers.netbootxyz.entrypoints=websecure

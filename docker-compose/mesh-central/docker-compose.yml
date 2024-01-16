@@ -9,7 +9,7 @@ services:
     volumes:
       - meshcentral_db:/data/db
     networks:
-      - meshcentral
+      - traefik_default
 
   meshcentral:
     restart: always
@@ -36,11 +36,12 @@ services:
       - traefik.enable=true
       - traefik.http.routers.meshcentral.rule=Host(`meshcentral.home.techfitsu.org`)
       - traefik.http.routers.meshcentral.entrypoints=websecure
+      - traefik.http.routers.meshcentral.tls=true
       - traefik.http.routers.meshcentral.tls.certresolver=production
+      - traefik.http.routers.meshcentral.service=meshcentral
       - traefik.http.services.meshcentral.loadbalancer.server.port=443
     networks:
       - traefik_default
-      - meshcentral
 
 volumes:
   meshcentral-data:
@@ -55,8 +56,3 @@ volumes:
 networks:
   traefik_default:
     external: true
-  
-  meshcentral:
-    name: meshcentral
-    driver: bridge
-

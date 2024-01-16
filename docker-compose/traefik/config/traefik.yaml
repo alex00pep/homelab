@@ -3,7 +3,7 @@ global:
   sendAnonymousUsage: false
 
 serversTransport:
-  insecureSkipVerify: false # -- (Optional) Change TLS verification here...
+  insecureSkipVerify: true # -- (Optional) Change TLS verification here...
 # -- (Optional) Change Log Level and Format here...
 #     - loglevels [DEBUG, INFO, WARNING, ERROR, CRITICAL]
 #     - format [common, json, logfmt]
@@ -87,3 +87,5 @@ providers:
     watch: true
     endpoint: "unix:///var/run/docker.sock"
     network: traefik_default
+  file:
+    filename: /etc/traefik/config.yml
