@@ -23,13 +23,17 @@ First create a `.env` file to substitute variables for your deployment.
 | `REV_SERVER_DOMAIN` | unset | Network Domain | If conditional forwarding is enabled, set the domain of the local network router |
 | `REV_SERVER_TARGET` | unset | Router's IP | If conditional forwarding is enabled, set the IP of the local network router |
 | `REV_SERVER_CIDR` | unset | Reverse DNS | If conditional forwarding is enabled, set the reverse DNS zone (e.g. `192.168.0.0/24`) |
-| `WEBTHEME` | `default-light` | `<"default-dark"\|"default-darker"\|"default-light"\|"default-auto"\|"lcars">`| User interface theme to use.
+| `WEBTHEME` | `default-light` | `<"default-dark"\|"default-darker"\|"default-light"\|"default-auto"\|"lcars">`| User interface theme to use. |
+| `HOSTNAME` | unset | `<Hostname>` | Set the hostname of the container. |
+| `DOMAIN_NAME` | unset | `<Domain name>` | Set the domain name of the container. |
+| `PIHOLE_WEBPORT` | unset | `<Port>` | Set the web port of the container. |
+| `PIHOLE_DNS_` | unset | `1.1.1.1;9.9.9.9` | Cloudflare and Quad9 DNS upstream servers. |
 
 Example `.env` file in the same directory as your `docker-compose.yaml` file:
 
 ```
 FTLCONF_LOCAL_IPV4=192.168.1.10
-TZ=America/Los_Angeles
+TZ=America/Chicago
 WEBPASSWORD=QWERTY123456asdfASDF
 REV_SERVER=true
 REV_SERVER_DOMAIN=local
@@ -39,6 +43,7 @@ HOSTNAME=pihole
 DOMAIN_NAME=pihole.local
 PIHOLE_WEBPORT=80
 WEBTHEME=default-light
+PIHOLE_DNS_=1.1.1.1;9.9.9.9
 ```
 
 ### Running the stack using Portainer UI

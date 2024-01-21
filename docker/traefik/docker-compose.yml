@@ -13,10 +13,18 @@ services:
       - "./config:/etc/traefik"
       - "traefik_data:/data/traefik"
     labels:
-      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.http-catchall.entrypoints=web"
-      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-secure.entrypoints=websecure"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik1.home.techfitsu.org`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=production"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=home.techfitsu.org"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.home.techfitsu.org"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:PASS"
     networks:
       - traefik_default
     # environment:

@@ -40,7 +40,7 @@ http:
       # For Homeassistant config, check: https://www.home-assistant.io/integrations/http/#reverse-proxies
       # This relies on Homeassistant using http. No certs are needed in the Homeassistant config.
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`homeassistant.home.techfitsu.org`)"
       middlewares:
         - default-headers
@@ -51,7 +51,7 @@ http:
       service: homeassistant
     syncthing:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`syncthing.home.techfitsu.org`)"
       middlewares:
         - default-headers
@@ -62,7 +62,7 @@ http:
       service: syncthing
     truenas:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`truenas.home.techfitsu.org`)"
       middlewares:
         - default-headers
@@ -73,7 +73,7 @@ http:
       service: truenas
     plex:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`plex.home.techfitsu.org`)"
       middlewares:
         - default-headers
@@ -84,7 +84,7 @@ http:
       service: plex
     minio:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`minio.home.techfitsu.org`)"
       middlewares:
         - default-headers
@@ -95,7 +95,7 @@ http:
       service: minio
     rancher:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`rancher.home.techfitsu.org`)"
       middlewares:
         - default-headers
@@ -106,7 +106,7 @@ http:
       service: rancher
     opnsense:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`opnsense.home.techfitsu.org`)"
       middlewares:
         - default-headers
@@ -117,7 +117,7 @@ http:
       service: opnsense
     pterodactyl:
       entryPoints:
-        - "https"
+        - "websecure"
       rule: "Host(`pterodactyl.home.techfitsu.org`)"
       middlewares:
         - default-headers
