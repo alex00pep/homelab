@@ -1,4 +1,5 @@
-# Install Helm on the management station
+# Installation of toolchain
+## Install Helm on the management station
 ```
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
@@ -9,7 +10,7 @@ helm --version
 cd kubernetes/traefik-cert-manager
 ```
 
-# Install Cert-Manager using Helm
+## Install Cert-Manager using Helm
 ```
 
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml
@@ -23,12 +24,13 @@ helm install cert-manager jetstack/cert-manager \
 kubectl get pods --namespace cert-manager
 ```
 
-# Alternatively nstall Cert Manager using kubectl. Follow all available methods: https://cert-manager.io/docs/installation/
+## Alternatively nstall Cert Manager using kubectl. Follow all available methods: https://cert-manager.io/docs/installation/
 ```
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.yaml
 ```
 
-# Create the Staging and Production certificate issuers of type Cluster Issuer. Test
+
+# Create the staging and production LetsEncrypt certificate issuers of type Cluster Issuer
 ```
 kubectl apply -f cert-manager/issuers/secret-cf-token.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-staging.yaml
@@ -38,7 +40,7 @@ kubectl apply -f cert-manager/issuers/letsencrypt-production.yaml
 kubectl get certificate
 ```
 
-# Create one Certificate ussing the LetsEncrypt staging issuer
+# Manually create one certificate using the LetsEncrypt staging issuer
 If you want to dig deeper on the cert provisioning process, you can also check all the DNS or HTTP challenges that LetsEncrypt is going through to provide a valid certificate, by using kubectl get challenges.
 
 ```
@@ -54,19 +56,29 @@ nginx-home   False    nginx-home-staging-tls   76s
 kubectl get challenges -w
 ```
 
-# Deploy you Nginx service with the ingress pointing at the staging certificate reference by secret "nginx-home-staging-tls".
+# Deploy you Nginx service with the ingress tls.secretName referencing the staging certificate "nginx-home-staging-tls".
 ```
 kubectl apply -f nginx/deployment.yaml
 kubectl apply -f nginx/service.yaml
 kubectl apply -f nginx/ingress.yaml
 ```
 
-# Go to Traefik GUI and also to Nginx.
+# Open Traefik dashboard and also Nginx.
 NOTE: do not forget to add the service FQDN to local DNS or on the network DNS. All the names below are just examples, feel free to adjust.
 Local NGINX url https://nginx.yourdomain
-Traefik Dashboard: https://traefik-dashboard.yourdomain
+Traefik Dashboard: https://traefik-k3s1.yourdomain
 
-# Now deploy production certificates and use them on your ingress
+# Now manually deploy production certificate and use them on your ingress
+```
+kubectl apply -f cert-manager/certificates/production/nginx-home.yaml
+
+Update the nginx ingress in order to change the tls.secretName to be "nginx-home-production-tls"
+```
+
+
+# The ultimate SSL certicate provisioning, using Certmanager Annotated Ingress Resource
+Documentation: https://cert-manager.io/docs/usage/ingress/#supported-annotations
+See an example on the nginx/ingress.yaml file
 
 
 

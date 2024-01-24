@@ -1,0 +1,31 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-k3s1-ingress
+  namespace: monitoring
+  annotations: 
+    kubernetes.io/ingress.class: traefik
+    # add an annotation indicating the SSL cert issuer to use.
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grafana-k3s1.home.techfitsu.org`)
+      kind: Rule
+      services:
+        - name: grafana
+          port: 80
+          sticky:
+            cookie:
+              httpOnly: true
+              name: grafana
+              secure: true
+              sameSite: none
+  tls:
+    secretName: grafana-k3s1-home-production-tls
+    domains:
+     - main: home.techfitsu.org
+       sans:
+        - "*.home.techfitsu.org"
