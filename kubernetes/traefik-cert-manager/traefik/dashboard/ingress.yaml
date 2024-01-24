@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-k3s1-dashboard
+  namespace: kube-system
+  annotations: 
+    kubernetes.io/ingress.class: traefik
+    # add an annotation indicating the SSL cert issuer to use.
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`traefik-k3s1.home.techfitsu.org`)
+      kind: Rule
+      middlewares:
+        - name: traefik-dashboard-basicauth
+          namespace: kube-system
+      services:
+        - name: api@internal
+          kind: TraefikService
+  tls:
+    secretName: traefik-k3s1-home-production-tls
+    domains:
+     - main: home.techfitsu.org
+       sans:
+        - "*.home.techfitsu.org"

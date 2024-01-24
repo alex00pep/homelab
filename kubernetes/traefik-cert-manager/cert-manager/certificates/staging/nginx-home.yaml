@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx-home
+  namespace: default
+spec:
+  secretName: nginx-home-staging-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: "*.home.techfitsu.org"
+  dnsNames:
+  - "home.techfitsu.org"
+  - "*.home.techfitsu.org"

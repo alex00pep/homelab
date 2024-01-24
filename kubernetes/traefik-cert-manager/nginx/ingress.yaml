@@ -1,0 +1,58 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`www.nginx.home.techfitsu.org`)
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80
+    - match: Host(`nginx.home.techfitsu.org`)
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+   secretName: nginx-home-production-tls
+
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    # add an annotation indicating the SSL cert issuer to use.
+    cert-manager.io/cluster-issuer: letsencrypt-production
+
+spec:
+  entryPoints:
+    - websecure
+  routes:    
+    - match: Host(`whoami.home.techfitsu.org`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+   secretName: whoami-home-production-tls
+   domains:
+    - main: home.techfitsu.org
+      sans:
+      - "*.home.techfitsu.org"
+   
