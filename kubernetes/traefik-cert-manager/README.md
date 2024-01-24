@@ -82,5 +82,5 @@ See an example on the nginx/ingress.yaml file
 
 
 
-# Unstalling cert-manager via Helm
+# Uninstalling cert-manager via Helm
 Go to https://cert-manager.io/docs/installation/helm/#uninstalling

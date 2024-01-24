@@ -60,7 +60,7 @@ Visit https://github.com/prometheus-operator/kube-prometheus for instructions on
 ```
 # Install Ingress for Grafana
 ```
-
+kubectl apply -f monitoring/ingress.yaml
 ```
 
 # Go to Traefik GUI and also to Nginx.
