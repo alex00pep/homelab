@@ -80,7 +80,5 @@ Update the nginx ingress in order to change the tls.secretName to be "nginx-home
 Documentation: https://cert-manager.io/docs/usage/ingress/#supported-annotations
 See an example on the nginx/ingress.yaml file
 
-
-
 # Uninstalling cert-manager via Helm
 Go to https://cert-manager.io/docs/installation/helm/#uninstalling
