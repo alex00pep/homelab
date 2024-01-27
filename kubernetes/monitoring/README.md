@@ -20,14 +20,12 @@ kubectl create namespace monitoring
 Change the user and password according to your needs
 ```
 echo -n 'admin' > ./admin-user # change your username
-echo -n 'p@ss' > ./admin-password # change your password
+echo -n 'yourp@' > ./admin-password # change your password
 kubectl  -n monitoring create secret generic grafana-admin-credentials --from-file=./admin-user --from-file=admin-password
-
 # Verify secrets
 kubectl describe secret -n monitoring grafana-admin-credentials
 kubectl get secret -n monitoring grafana-admin-credentials -o jsonpath="{.data.admin-user}" | base64 --decode
 kubectl get secret -n monitoring grafana-admin-credentials -o jsonpath="{.data.admin-password}" | base64 --decode
-
 # Delete the local secrets
 rm admin-user && rm admin-password
 

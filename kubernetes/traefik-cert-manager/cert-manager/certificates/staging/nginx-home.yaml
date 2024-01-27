@@ -11,5 +11,4 @@ spec:
     kind: ClusterIssuer
   commonName: "*.home.techfitsu.org"
   dnsNames:
-  - "home.techfitsu.org"
   - "*.home.techfitsu.org"

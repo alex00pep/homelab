@@ -24,7 +24,7 @@ helm install cert-manager jetstack/cert-manager \
 kubectl get pods --namespace cert-manager
 ```
 
-## Alternatively nstall Cert Manager using kubectl. Follow all available methods: https://cert-manager.io/docs/installation/
+## Alternatively install Cert-Manager using kubectl. Follow all available methods: https://cert-manager.io/docs/installation/
 ```
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.2/cert-manager.yaml
 ```
@@ -35,7 +35,6 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 kubectl apply -f cert-manager/issuers/secret-cf-token.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-staging.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-production.yaml
-
 # Pull certs from staging instance. Should return with "No resources found in namespace"
 kubectl get certificate
 ```

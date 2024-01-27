@@ -3,7 +3,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: default-headers
-  namespace: default
+  namespace: test
 spec:
   headers:
     browserXssFilter: true
