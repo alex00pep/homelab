@@ -1,3 +1,4 @@
 .env
 *.env
 *acme.json
+/secret-cf-token.yaml

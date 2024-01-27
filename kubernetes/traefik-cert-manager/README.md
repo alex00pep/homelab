@@ -32,7 +32,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 # Create the staging and production LetsEncrypt certificate issuers of type Cluster Issuer
 ```
-kubectl apply -f cert-manager/issuers/secret-cf-token.yaml
+kubectl apply -f secrets/secret-cf-token.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-staging.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-production.yaml
 # Pull certs from staging instance. Should return with "No resources found in namespace"
