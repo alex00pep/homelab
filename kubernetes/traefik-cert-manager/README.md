@@ -1,4 +1,13 @@
-# Installation of toolchain
+# Installation process
+
+## Obtain a Cloudflare API token then add it to the local configuration file
+
+```
+cp secrets/sample-secret-cf-token.yaml secrets/secret-cf-token.yaml
+# Edit your file secrets/secret-cf-token.yaml to add your Cloudflare API token
+```
+
+
 ## Install Helm on the management station
 ```
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -32,9 +41,6 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 # Create the staging/production LetsEncrypt Cluster certificate issuers with Cloudflare as DNS01 challenge resolver.
 ```
-cp secrets/sample-secret-cf-token.yaml secrets/secret-cf-token.yaml
-
-# Edit your file secrets/secret-cf-token.yaml to add your Cloudflare API token
 
 kubectl apply -f secrets/secret-cf-token.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-staging.yaml
