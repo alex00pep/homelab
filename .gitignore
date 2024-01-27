@@ -1,4 +1,4 @@
 .env
 *.env
 *acme.json
-secrets/secret-cf-token.yaml
+./kubernetes/secrets/secret-cf-token.yaml
