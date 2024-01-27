@@ -1,10 +1,14 @@
 # Installation process
 
-## Obtain a Cloudflare API token then add it to the local configuration file
+## Obtain a Cloudflare API token then add it to Kubernetes namespace cert-manager
 
 ```
+cd kubernetes
+kubectl create namespace cert-manager
 cp secrets/sample-secret-cf-token.yaml secrets/secret-cf-token.yaml
-# Edit your file secrets/secret-cf-token.yaml to add your Cloudflare API token
+# Edit your file secrets/secret-cf-token.yaml to add your Cloudflare API token, before running cmd below
+
+kubectl apply -f secrets/secret-cf-token.yaml
 ```
 
 
@@ -41,8 +45,6 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 
 # Create the staging/production LetsEncrypt Cluster certificate issuers with Cloudflare as DNS01 challenge resolver.
 ```
-
-kubectl apply -f secrets/secret-cf-token.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-staging.yaml
 kubectl apply -f cert-manager/issuers/letsencrypt-production.yaml
 # Pull certs from staging instance. Should return with "No resources found in namespace"
