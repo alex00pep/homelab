@@ -93,3 +93,8 @@ See an example on the nginx/ingress.yaml file
 
 # Uninstalling cert-manager via Helm
 Go to https://cert-manager.io/docs/installation/helm/#uninstalling
+
+
+# References:
+https://technotim.live/posts/kube-traefik-cert-manager-le/
+https://github.com/JamesTurland/JimsGarage/blob/main/Kubernetes/Rancher-Deployment/readme.md

@@ -71,3 +71,6 @@ Local Grafana url https://grafana.yourdomain
 helm uninstall -n monitoring prometheus
 kubectl delete namespace monitoring
 ```
+
+# References:
+https://technotim.live/posts/kube-grafana-prometheus/
