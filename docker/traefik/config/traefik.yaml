@@ -28,9 +28,7 @@ entryPoints:
   web:
     address: :80
     # -- (Optional) Redirect all HTTP to HTTPS
-    http:      
-      middlewares:
-        - crowdsec-bouncer@file
+    http:
       redirections:
         entryPoint:
           to: websecure
@@ -38,8 +36,6 @@ entryPoints:
   websecure:
     address: :443
     http:
-      middlewares:
-        - crowdsec-bouncer@file
       tls:
         certResolver: production
         domains:
