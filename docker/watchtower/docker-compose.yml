@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  watchtower:
+    image: containrrr/watchtower
+    # Will run watchtower permanently, every day, every week, every month at 04:30 hours
+    command: watchtower --debug --cleanup --schedule "0 30 4 * * *"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always

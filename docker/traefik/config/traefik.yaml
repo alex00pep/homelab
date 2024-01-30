@@ -28,7 +28,9 @@ entryPoints:
   web:
     address: :80
     # -- (Optional) Redirect all HTTP to HTTPS
-    http:
+    http:      
+      middlewares:
+        - crowdsec-bouncer@file
       redirections:
         entryPoint:
           to: websecure
@@ -36,6 +38,8 @@ entryPoints:
   websecure:
     address: :443
     http:
+      middlewares:
+        - crowdsec-bouncer@file
       tls:
         certResolver: production
         domains:
@@ -63,10 +67,6 @@ certificatesResolvers:
       storage: /data/traefik/acme.json
       dnsChallenge:
         provider: cloudflare
-
-# -- (Optional) Disable TLS Cert verification check
-# serversTransport:
-#   insecureSkipVerify: true
 
 # -- (Optional) Overwrite Default Certificates
 # tls:

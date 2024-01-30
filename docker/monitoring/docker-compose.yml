@@ -35,8 +35,8 @@ services:
     container_name: prometheus 
     restart: unless-stopped 
     volumes: 
-      - ${HOME}/promgrafnode/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml 
-      - ${HOME}/promgrafnode/prometheus/:/prometheus 
+      - ${HOME}/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml 
+      - ${HOME}/monitoring/prometheus/:/prometheus 
     command: 
       - '--config.file=/etc/prometheus/prometheus.yml' 
       - '--storage.tsdb.path=/prometheus' 
@@ -46,7 +46,7 @@ services:
     ports: 
       - 9090:9090 
     networks: 
-      - monitoring 
+      - monitoring
   grafana: 
     image: grafana/grafana:latest 
     user: "1000" 

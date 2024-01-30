@@ -7,16 +7,17 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"  # UI for Traefik web dashboard [optional]
+      # - "8080:8080"  # UI for Traefik web dashboard [optional]
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./config:/etc/traefik"
       - "traefik_data:/data/traefik"
+      - "traefik_logs:/var/log/traefik"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-secure.entrypoints=websecure"
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik1.home.techfitsu.org`)"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      # - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=production"
       - "traefik.http.routers.traefik-secure.tls.domains[0].main=home.techfitsu.org"
@@ -24,7 +25,7 @@ services:
       - "traefik.http.routers.traefik-secure.service=api@internal"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:PASS"
+      # - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:PASS"
     networks:
       - traefik_default
     # environment:
@@ -37,6 +38,8 @@ services:
     restart: always
 
 volumes:
+  traefik_logs:
+    driver: local
   traefik_data:
     driver: local
 networks:
