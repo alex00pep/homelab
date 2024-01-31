@@ -14,7 +14,7 @@ https://github.com/techno-tim/k3s-ansible
 https://github.com/k3s-io/k3s-ansible
 
 ## Proper deployment order:
-### First SSL certificate management for Ingress Controllers
+### First SSL certificate management for Traefik as LoadBalancer Ingress Controller
 Go to subfolder traefik-cert-manager and follow instructions.
 
 

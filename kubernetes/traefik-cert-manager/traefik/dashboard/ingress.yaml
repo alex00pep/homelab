@@ -8,6 +8,8 @@ metadata:
     kubernetes.io/ingress.class: traefik
     # add an annotation indicating the SSL cert issuer to use.
     cert-manager.io/cluster-issuer: letsencrypt-production
+    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "default,kube-system"  # Control destination namespaces
 spec:
   entryPoints:
     - websecure

@@ -6,12 +6,10 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: traefik
-    # add an annotation indicating the SSL cert issuer to use.
+    # add an annotation indicating the SSL cert issuer to use. This will provision a cert automatically
     cert-manager.io/cluster-issuer: letsencrypt-production
     reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "test"  # Control destination namespaces
-    reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true" # Auto create reflection for matching namespaces
-    reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "default" # Control auto-reflection namespaces
+    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "default"  # Control destination namespaces
 
 spec:
   entryPoints:
@@ -47,6 +45,8 @@ metadata:
     kubernetes.io/ingress.class: traefik
     # add an annotation indicating the SSL cert issuer to use.
     cert-manager.io/cluster-issuer: letsencrypt-production
+    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "default"  # Control destination namespaces
 spec:
   entryPoints:
     - websecure
