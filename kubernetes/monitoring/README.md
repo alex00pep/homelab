@@ -6,12 +6,13 @@ chmod 700 get_helm.sh
 # Check version
 helm --version
 
-cd kubernetes/monitoring
+cd kubernetes/
 ```
 
 # Install Prometheus Community repo and create a monitoring namespace
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
 kubectl create namespace monitoring
 
 ```
@@ -20,7 +21,7 @@ kubectl create namespace monitoring
 Change the user and password according to your needs
 ```
 echo -n 'admin' > ./admin-user # change your username
-echo -n 'yourp@' > ./admin-password # change your password
+echo -n 'yourpass' > ./admin-password # change your password
 kubectl  -n monitoring create secret generic grafana-admin-credentials --from-file=./admin-user --from-file=admin-password
 # Verify secrets
 kubectl describe secret -n monitoring grafana-admin-credentials
@@ -56,14 +57,19 @@ kube-prometheus-stack has been installed. Check its status by running:
 
 Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
 ```
-# Install Ingress for Grafana
+# Install Cert and Ingress for Grafana and Prometheus Alert Manager
 ```
-kubectl apply -f monitoring/ingress.yaml
+kubectl -n monitoring apply -f cert-manager/certificates/production/home-production.yaml
+
+# Pull certs from production issuer instance.
+kubectl -n monitoring get certificate -w
+
+kubectl -n monitoring apply -f monitoring/ingress.yaml
 ```
 
-# Go to Traefik GUI and also to Nginx.
+# Go to Traefik , Grafana and Alert Manager GUIs.
 NOTE: do not forget to add the service FQDN to local DNS or on the network DNS. All the names below are just examples, feel free to adjust.
-Local Grafana url https://grafana.yourdomain
+Local Grafana url https://grafana-*.yourdomain
 
 
 # Unstalling monitoring stack

@@ -3,7 +3,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx
-  namespace: default
 spec:
   ipFamilyPolicy: PreferDualStack
   selector:
@@ -20,7 +19,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: whoami
-  namespace: default
   annotations:
     # Add annotation for Traefik-Mesh to be the router and handle traffic going out/in to your service    
     mesh.traefik.io/traffic-type: "http"

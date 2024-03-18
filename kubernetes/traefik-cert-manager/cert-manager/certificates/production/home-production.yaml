@@ -2,10 +2,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nginx-home
-  namespace: default
+  name: home-production-tls
 spec:
-  secretName: nginx-home-production-tls
+  secretName: home-production-tls
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer

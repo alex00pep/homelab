@@ -1,4 +1,6 @@
 .env
 *.env
 *acme.json
-*secret-cf-token.yaml
+kubernetes/traefik-cert-manager/get_helm.sh
+kubernetes/traefik-cert-manager/secrets/secret-cf-token.yaml
+kubernetes/rancher/values.yaml

@@ -2,17 +2,16 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: grafana-k3s1-ingress
-  namespace: monitoring
+  name: grafana-nane01
   annotations: 
     kubernetes.io/ingress.class: traefik
-    # add an annotation indicating the SSL cert issuer to use.
+    # # add an annotation indicating the SSL cert issuer to use.
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`grafana-k3s1.home.techfitsu.org`)
+    - match: Host(`grafana-nane01.home.techfitsu.org`)
       kind: Rule
       services:
         - name: grafana
@@ -24,8 +23,26 @@ spec:
               secure: true
               sameSite: none
   tls:
-    secretName: grafana-k3s1-home-production-tls
-    domains:
-     - main: home.techfitsu.org
-       sans:
-        - "*.home.techfitsu.org"
+    secretName: home-production-tls
+    
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: alertmanager-nane01
+  annotations: 
+    kubernetes.io/ingress.class: traefik
+    # # add an annotation indicating the SSL cert issuer to use.
+    # cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`alertmanager-nane01.home.techfitsu.org`)
+      kind: Rule
+      services:
+        - name: alertmanager-operated
+          port: 9093
+          
+  tls:
+    secretName: home-production-tls

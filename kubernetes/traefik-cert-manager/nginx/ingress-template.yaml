@@ -14,12 +14,12 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`www.nginx.home.techfitsu.org`)
+    - match: Host(`www.nginx-$REGION.home.techfitsu.org`)
       kind: Rule
       services:
         - name: nginx
           port: 80
-    - match: Host(`nginx.home.techfitsu.org`)
+    - match: Host(`nginx-$REGION.home.techfitsu.org`)
       kind: Rule
       services:
         - name: nginx
@@ -49,7 +49,7 @@ spec:
   entryPoints:
     - websecure
   routes:    
-    - match: Host(`whoami.home.techfitsu.org`)
+    - match: Host(`whoami-$REGION.home.techfitsu.org`)
       kind: Rule
       services:
         - name: whoami

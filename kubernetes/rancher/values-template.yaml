@@ -1,0 +1,10 @@
+bootstrapPassword: $PASSWORD
+hostname: rancher-$REGION.home.techfitsu.org
+replicas: 1
+ingress:
+  tls:
+    source: letsEncrypt
+letsEncrypt:
+  email: alexmtnezf@gmail.com
+  environment: "production"
+privateCA: false
