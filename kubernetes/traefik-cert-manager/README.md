@@ -59,13 +59,15 @@ kubectl get certificate
 ## Add Traefik Dashboard
 ```
 # Generate user and password for dashboard and paste it into traefik/dashboard/secret-dashboard.yaml
-htpasswd -nb admin password | openssl base64
-
+PASSWORD=$(htpasswd -nb admin recallsvnxe3rk6sz | openssl base64)
+REGION=nane02
 
 cp traefik/dashboard/ingress-template.yaml traefik/dashboard/ingress.yaml
-REGION=nane01
+cp traefik/dashboard/secret-template.yaml traefik/dashboard/secret.yaml
+
 sed -i -e "s/\$REGION/$REGION/g" traefik/dashboard/ingress.yaml
-kubectl apply -f traefik/dashboard/secret-dashboard.yaml
+sed -i -e "s/\$PASSWORD/$PASSWORD/g" traefik/dashboard/secret.yaml
+kubectl apply -f traefik/dashboard/secret.yaml
 kubectl apply -f traefik/dashboard/middleware.yaml
 kubectl apply -f traefik/default-headers.yaml
 kubectl apply -f traefik/dashboard/ingress.yaml
@@ -94,11 +96,9 @@ kubectl get challenges -w
 
 ## Deploy your Nginx and Whoami services with ingress provisioning.
 ```
-REGION=<your_region>
-
 cp nginx/ingress-template.yaml nginx/ingress.yaml
 REGION=nane01
-sed -i -e "s/\$REGION/$REGION/g" rancher/values.yaml
+sed -i -e "s/\$REGION/$REGION/g" nginx/ingress.yaml
 
 kubectl -n default apply -f nginx/deployment.yaml
 kubectl -n default apply -f nginx/service.yaml

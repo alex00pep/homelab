@@ -7,19 +7,17 @@ metadata:
     kubernetes.io/ingress.class: traefik
     # add an annotation indicating the SSL cert issuer to use. This will provision a cert automatically
     cert-manager.io/cluster-issuer: letsencrypt-production
-    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "default"  # Control destination namespaces
 
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`www.nginx.home.techfitsu.org`)
+    - match: Host(`www.nginx-nane01.home.techfitsu.org`)
       kind: Rule
       services:
         - name: nginx
           port: 80
-    - match: Host(`nginx.home.techfitsu.org`)
+    - match: Host(`nginx-nane01.home.techfitsu.org`)
       kind: Rule
       services:
         - name: nginx
@@ -43,13 +41,11 @@ metadata:
     kubernetes.io/ingress.class: traefik
     # add an annotation indicating the SSL cert issuer to use.
     cert-manager.io/cluster-issuer: letsencrypt-production
-    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "default"  # Control destination namespaces
 spec:
   entryPoints:
     - websecure
   routes:    
-    - match: Host(`whoami.home.techfitsu.org`)
+    - match: Host(`whoami-nane01.home.techfitsu.org`)
       kind: Rule
       services:
         - name: whoami

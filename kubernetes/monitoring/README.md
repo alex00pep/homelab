@@ -21,7 +21,7 @@ kubectl create namespace monitoring
 Change the user and password according to your needs
 ```
 echo -n 'admin' > ./admin-user # change your username
-echo -n 'yourpass' > ./admin-password # change your password
+echo -n 'recallsvnxe3rk6sz' > ./admin-password # change your password
 kubectl  -n monitoring create secret generic grafana-admin-credentials --from-file=./admin-user --from-file=admin-password
 # Verify secrets
 kubectl describe secret -n monitoring grafana-admin-credentials
@@ -64,6 +64,10 @@ kubectl -n monitoring apply -f cert-manager/certificates/production/home-product
 # Pull certs from production issuer instance.
 kubectl -n monitoring get certificate -w
 
+# Install ingress resource
+cp monitoring/ingress-template.yaml monitoring/ingress.yaml
+REGION=nane01
+sed -i -e "s/\$REGION/$REGION/g" monitoring/ingress.yaml
 kubectl -n monitoring apply -f monitoring/ingress.yaml
 ```
 

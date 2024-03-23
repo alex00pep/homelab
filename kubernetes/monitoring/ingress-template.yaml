@@ -2,7 +2,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: grafana-nane01
+  name: grafana-$REGION
   annotations: 
     kubernetes.io/ingress.class: traefik
     # # add an annotation indicating the SSL cert issuer to use.
@@ -11,7 +11,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`grafana-nane01.home.techfitsu.org`)
+    - match: Host(`grafana-$REGION.home.techfitsu.org`)
       kind: Rule
       services:
         - name: grafana
@@ -24,12 +24,12 @@ spec:
               sameSite: none
   tls:
     secretName: home-production-tls
+    
 
----
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: alertmanager-nane01
+  name: alertmanager-$REGION
   annotations: 
     kubernetes.io/ingress.class: traefik
     # # add an annotation indicating the SSL cert issuer to use.
@@ -38,7 +38,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`alertmanager-nane01.home.techfitsu.org`)
+    - match: Host(`alertmanager-$REGION.home.techfitsu.org`)
       kind: Rule
       services:
         - name: alertmanager-operated

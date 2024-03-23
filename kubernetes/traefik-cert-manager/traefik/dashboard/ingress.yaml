@@ -2,7 +2,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: traefik-nane01-dashboard
+  name: traefik-nane02-dashboard
   namespace: kube-system
   annotations:
     kubernetes.io/ingress.class: traefik
@@ -14,7 +14,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`traefik-nane01.home.techfitsu.org`)
+    - match: Host(`traefik-nane02.home.techfitsu.org`)
       kind: Rule
       middlewares:
         - name: traefik-dashboard-basicauth
@@ -25,6 +25,6 @@ spec:
   tls:
     secretName: home-production-tls
     domains:
-     - main: traefik-nane01.home.techfitsu.org
+     - main: traefik-nane02.home.techfitsu.org
        sans:
         - "*.home.techfitsu.org"
