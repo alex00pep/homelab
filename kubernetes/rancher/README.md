@@ -19,13 +19,14 @@ helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
 helm repo update
 kubectl create ns cattle-system
 cp rancher/values-template.yaml rancher/values.yaml
-REGION=nane02
+DOMAIN=example.com
+REGION=nane01
 PASSWORD=yourpass
 sed -i -e "s/\$REGION/$REGION/g" rancher/values.yaml
 sed -i -e "s/\$PASSWORD/$PASSWORD/g" rancher/values.yaml
 helm install rancher rancher-latest/rancher --version 2.8.2  --namespace cattle-system --create-namespace  --values=rancher/values.yaml
 sleep 300
-echo https://rancher-${REGION}.home.techfitsu.org/dashboard/?setup=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}')
+echo https://rancher-${REGION}.${DOMAIN}/dashboard/?setup=$(kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}')
 
 ```
 
