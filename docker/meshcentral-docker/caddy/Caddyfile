@@ -1,0 +1,36 @@
+# To use your own domain name (with automatic HTTPS), first make
+# sure your domain's A/AAAA DNS records are properly pointed to
+# this machine's public IP, then replace "example.com" below with your
+# domain name.
+
+{
+  # Set the ACME DNS challenge provider to use Cloudflare for all sites
+  email {env.CLOUDFLARE_EMAIL}
+  acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  acme_ca https://acme-v02.api.letsencrypt.org/directory
+}
+
+meshcentral.home.techfitsu.org:8086 {
+    # Set this path to your site's directory.
+    # root * /usr/share/caddy
+
+    # Enable the static file server.
+    #file_server
+
+    # Another common task is to set up a reverse proxy:
+    reverse_proxy https://meshcentral:443 {
+      transport http {
+        tls_insecure_skip_verify
+      }
+    }
+    # Or serve a PHP site through php-fpm:
+    # php_fastcgi localhost:9000
+
+    #encode gzip
+
+    tls {
+      # No need to specify dns here, it's already set globally
+      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+      
+    }
+}

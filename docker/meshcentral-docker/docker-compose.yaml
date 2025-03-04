@@ -1,0 +1,26 @@
+# this is example 1 from the documentation
+services:
+  meshcentral:
+    container_name: meshcentral
+    image: ghcr.io/gurucomputing/meshcentral-docker:latest
+    restart: "always"
+    volumes:
+      - meshcentral-data:/meshcentral/meshcentral-data
+      - meshcentral-user_files:/meshcentral/meshcentral-files
+      - meshcentral-backups:/meshcentral/meshcentral-backup
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 80:80
+      - 443:443
+
+
+
+volumes:
+  meshcentral-data:
+    driver: local
+  meshcentral-user_files:
+    driver: local
+  meshcentral-backups:
+    driver: local
+  meshcentral_db:
+    driver: local

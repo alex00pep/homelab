@@ -1,0 +1,96 @@
+name: Publish Image
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+env:
+  VERSION_OVERRIDE: 0
+  VERSION_OVERRIDE_NUMBER: "1.0.0"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Variable Gathering
+        id: gathervars
+        run: |
+          NOT_PREVIOUSLY_PUBLISHED=0
+          VERSION=$(npm info meshcentral version)
+          STABLE_VERSION=$(npm dist-tags meshcentral | grep stable | awk -F '[ ]' '{print $2}')
+
+          if [ ${{ env.VERSION_OVERRIDE }} -eq 1 ]
+          then
+            echo "Version override detected. Setting version to ${{ env.VERSION_OVERRIDE_NUMBER }}"
+            VERSION=${{ env.VERSION_OVERRIDE_NUMBER }}
+          fi
+          echo "::set-output name=VERSION::$VERSION"
+          echo "::set-output name=STABLE_VERSION::$STABLE_VERSION"
+
+          echo $VERSION
+          echo $STABLE_VERSION
+          # check if version has already been published
+          $(docker manifest inspect ghcr.io/gurucomputing/meshcentral-docker:$VERSION > /dev/null) || NOT_PREVIOUSLY_PUBLISHED=1
+          echo "::set-output name=NOT_PREVIOUSLY_PUBLISHED::$NOT_PREVIOUSLY_PUBLISHED"
+          # get a current BUILD_DATE
+          echo "::set-output name=BUILD_DATE::$(date +%Y%m%d-%H%M%S)"
+
+      - name: Output Version
+        run: |
+          echo "The selected version is ${{ steps.gathervars.outputs.VERSION }}"
+          echo "The latest stable version is ${{ steps.gathervars.outputs.STABLE_VERSION }}"
+          if [ "${{ steps.gathervars.outputs.VERSION }}" = "${{ steps.gathervars.outputs.STABLE_VERSION }}" ]
+          then
+            echo "the current version matches the stable version"
+          else
+            echo "the current version does not match the stable version"
+          fi
+          if [ ${{ steps.gathervars.outputs.NOT_PREVIOUSLY_PUBLISHED }} -eq 0 ]
+          then
+            echo "This image has already been published to the registry. Not proceeding"
+          fi
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        if: ${{ steps.gathervars.outputs.NOT_PREVIOUSLY_PUBLISHED != 0 }}
+        
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        if: ${{ steps.gathervars.outputs.NOT_PREVIOUSLY_PUBLISHED != 0 }}
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Build and push Stable Docker Image
+        uses: docker/build-push-action@v2
+        if: ${{ steps.gathervars.outputs.VERSION == steps.gathervars.outputs.STABLE_VERSION && steps.gathervars.outputs.NOT_PREVIOUSLY_PUBLISHED != 0 }}
+        with:
+          build-args: |
+            BUILD_DATE=${{ steps.gathervars.outputs.BUILD_DATE }}
+            VERSION=${{ steps.gathervars.outputs.VERSION }}
+          context: ./container-build
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:stable
+            ghcr.io/${{ github.repository }}:${{ steps.gathervars.outputs.VERSION }}
+          push: true
+          
+      - name: Build and push Latest Docker Image
+        uses: docker/build-push-action@v2
+        if: ${{ steps.gathervars.outputs.VERSION != steps.gathervars.outputs.STABLE_VERSION && steps.gathervars.outputs.NOT_PREVIOUSLY_PUBLISHED != 0 }}
+        with:
+          build-args: |
+            # BUILD_DATE=${{ steps.gathervars.outputs.BUILD_DATE }}
+            VERSION=${{ steps.gathervars.outputs.VERSION }}
+          context: ./container-build
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ steps.gathervars.outputs.VERSION }}
+          push: true

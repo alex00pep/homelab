@@ -1,0 +1,75 @@
+# This is example 3 from the documentation
+services:
+  meshcentral:
+    container_name: meshcentral
+    image: ghcr.io/gurucomputing/meshcentral-docker:latest
+    restart: "always"
+    volumes:
+      - meshcentral-data:/meshcentral/meshcentral-data
+      - meshcentral-user_files:/meshcentral/meshcentral-files
+      - meshcentral-backups:/meshcentral/meshcentral-backup
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - MONGODB_URL=mongodb://meshcentral-db:27017
+      - MONGODB_NAME=meshcentral
+      - DB_ENCRYPT_KEY=${DB_ENCRYPT_KEY}
+      - AGENT_PORT=8800
+      - CERT=meshcentral.home.techfitsu.org
+    ports:
+      - 8800:8800
+      - 8086:80
+      - 4443:443
+    networks:
+      - meshcentral-nw
+      - reverseproxy-nw
+    depends_on:
+      - meshcentral-db
+
+  meshcentral-db:
+    container_name: meshcentral-db
+    image: mongo:latest
+    restart: "always"
+    volumes:
+      - meshcentral_db:/data/db
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - 27017
+    networks:
+      - meshcentral-nw
+
+#  meshcentral-proxy:
+#    container_name: meshcentral-proxy
+#    image: ghcr.io/caddybuilds/caddy-cloudflare:alpine
+#    restart: "always"
+#    volumes:
+#      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+#      - caddy_data:/data
+#      - caddy_config:/config
+#
+#    env_file:
+#      - .env
+#    ports:
+#      - 8086:80
+#      - 4443:443
+#    networks:
+#      - reverseproxy-nw
+
+volumes:
+  meshcentral-data:
+    driver: local
+  meshcentral-user_files:
+    driver: local
+  meshcentral-backups:
+    driver: local
+  meshcentral_db:
+    driver: local
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local
+
+networks:
+  meshcentral-nw:
+  reverseproxy-nw:

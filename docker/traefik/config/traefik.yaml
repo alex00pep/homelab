@@ -2,6 +2,9 @@ global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
+tcpServersTransport:
+  tls:
+    insecureSkipVerify: true
 serversTransport:
   insecureSkipVerify: true # -- (Optional) Change TLS verification here...
 # -- (Optional) Change Log Level and Format here...

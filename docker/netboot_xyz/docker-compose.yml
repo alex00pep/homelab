@@ -5,16 +5,16 @@ services:
     image: ghcr.io/netbootxyz/netbootxyz
     container_name: netbootxyz
     environment:
-      - MENU_VERSION=2.0.76 # optional
+      - MENU_VERSION=2.0.83 # optional
       - TZ=America/Chicago
     volumes:
       - netbootxyz_config:/config # optional
       - netbootxyz_assets:/assets # optional
     ports:
-      - 3000:3000
+      - 3002:3000
       - 69:69/udp
     restart: always
-    
+
     labels:
       - traefik.enable=true
       - traefik.http.routers.netbootxyz.entrypoints=websecure
